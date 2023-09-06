@@ -1,0 +1,134 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model students {
+  id                Int                     @id @default(autoincrement())
+  firstname         String                  @db.VarChar(255)
+  lastname          String                  @db.VarChar(255)
+  address           String                  @db.Text
+  student_mobile_no String                  @db.VarChar(20)
+  parent_mobile_no  String                  @db.VarChar(20)
+  email_address     String                  @unique(map: "email_address") @db.VarChar(255)
+  dob               DateTime?               @db.Date
+  qualification     students_qualification?
+  education         String?                 @db.VarChar(255)
+  institute_name    String?                 @db.VarChar(255)
+  status            students_status?
+  profile_photo     String?                 @db.Text
+  password          String                  @db.VarChar(255)
+  created_at        DateTime?               @default(now()) @db.Timestamp(0)
+  updated_at        DateTime?               @default(now()) @db.Timestamp(0)
+}
+
+model courses {
+  id                        Int       @id @default(autoincrement())
+  name                      String    @db.VarChar(255)
+  fees                      Decimal   @db.Decimal(10, 2)
+  course_description        String?   @db.Text
+  exprected_completion_time String?   @db.VarChar(10)
+  allocated_grace_period    String?   @db.VarChar(10)
+  course_score              Decimal?  @db.Decimal(10, 2)
+  has_project               Boolean?
+  has_residency             Boolean?
+  couse_image_link          String?   @db.Text
+  quizzes                   quizzes[]
+}
+
+model live_sessions {
+  id               Int    @id @default(autoincrement())
+  session_name     String @db.VarChar(255)
+  session_duration Int
+}
+
+model mentors {
+  id                    Int       @id @default(autoincrement())
+  first_name            String    @db.VarChar(255)
+  last_name             String    @db.VarChar(255)
+  experience_level      String    @db.VarChar(50)
+  email_address         String    @db.VarChar(50)
+  mobile_no             String    @db.VarChar(50)
+  dob                   DateTime? @db.Date
+  password              String    @db.VarChar(20)
+  skills_specialization String?   @db.VarChar(255)
+  education             String?   @db.VarChar(255)
+}
+
+model questions {
+  id              Int                     @id @default(autoincrement())
+  quiz_id         Int
+  question_text   String                  @db.Text
+  question_type   questions_question_type
+  allocated_marks Int?
+  quizzes         quizzes                 @relation(fields: [quiz_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "questions_ibfk_1")
+
+  @@index([quiz_id], map: "fk_question_id")
+}
+
+model quizzes {
+  id           Int         @id @default(autoincrement())
+  title        String      @db.VarChar(255)
+  description  String?     @db.Text
+  is_mandatory Boolean?
+  skill_id     Int?
+  course_id    Int?
+  created_at   DateTime?   @default(now()) @db.Timestamp(0)
+  updated_at   DateTime?   @default(now()) @db.Timestamp(0)
+  questions    questions[]
+  courses      courses?    @relation(fields: [course_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "courseid_fk")
+  skills       skills?     @relation(fields: [skill_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "skilid_fk")
+
+  @@index([course_id], map: "fk_courseid")
+  @@index([skill_id], map: "fk_skilid")
+}
+
+model residencies {
+  id           Int     @id @default(autoincrement())
+  name         String  @db.VarChar(255)
+  duration     Int
+  instructions String? @db.Text
+}
+
+model skills {
+  id                       Int       @id @default(autoincrement())
+  name                     String    @db.VarChar(255)
+  skill_description        String?   @db.Text
+  expected_completion_time String?   @db.VarChar(20)
+  aloocated_grace_period   String?   @db.VarChar(20)
+  skill_score              Decimal?  @db.Decimal(10, 2)
+  has_project              Boolean?
+  has_residency            Boolean?
+  skill_image_link         String?   @db.Text
+  quizzes                  quizzes[]
+}
+
+model admin_account {
+  id            Int    @id @default(autoincrement())
+  admin_name    String @db.VarChar(255)
+  email_address String @db.VarChar(50)
+  password      String @db.Text
+}
+
+enum students_status {
+  active
+  inactive
+}
+
+enum questions_question_type {
+  multiple_choice
+  true_false
+  open_ended
+}
+
+enum students_qualification {
+  secondary_school
+  higher_secondary
+  junior_college
+  under_graduate
+  post_graduate
+}
