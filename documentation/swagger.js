@@ -1,7 +1,8 @@
 const config = require(`../helper/config/config`);
 
 const studentDoc = require(`./content/student.doc`);
-const adminDoc = require(`./content/admin.doc`)
+const adminDoc = require(`./content/admin.doc`);
+const coursesDoc = require(`./content/courses.doc`);
 
 
 
@@ -41,12 +42,14 @@ module.exports ={
 
     defination : {
         ...studentDoc.defination,
-        ...adminDoc.defination
+        ...adminDoc.defination,
+        ...coursesDoc.defination
     },
 
     // ----------- Pahts ------------------------------
     paths : {
         ...studentDoc.path,
-        ...adminDoc.path   
+        ...adminDoc.path,
+        ...coursesDoc.path   
     }
 };

@@ -29,6 +29,7 @@ const getAdminByEmailId = async(adminData) =>{
 //--------------------------- Module Exports -------------------------------------
 
 
+
 module.exports={
     createAdmin,
     getAdminByEmailId

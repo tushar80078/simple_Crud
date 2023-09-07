@@ -6,31 +6,75 @@ const authHelper = require("../helper/functions/authHelper");
 
 
 exports.postCreateAdminProfile =async (req,res,next) =>{
+    try {
 
-    let {admin_name,email_address,password} = req.body;
+        let {admin_name,email_address,password} = req.body;
 
-    if(!admin_name || !email_address || !password)
-    {
-        return next({ statusCode: 400, message: `Please Send Proper Data With Proper Keys. (Required fields with keys - admin_name, email_address, password)` });
+        if(!admin_name || !email_address || !password)
+        {
+            return next({ statusCode: 400, message: `Please Send Proper Data With Proper Keys. (Required fields with keys - admin_name, email_address, password)` });
+        }
+    
+        let isAdminExists =await adminService.getAdminByEmailId(email_address);
+    
+        if(isAdminExists) 
+        {
+            return next({ statusCode: 409, message: `Admin already exists with given Email_Address` }); 
+        }
+    
+        //------- Generating hash password
+        password =await authHelper.hashPassword(password);
+    
+        const createAdminResponse = await adminService.createAdmin({admin_name,email_address,password});
+    
+        return res.status(200).send({
+            msg : "Admin Created Successfully!!",
+            adminResponse :  createAdminResponse
+        })
+            
+    } catch (error) {
+        return next(erro);
     }
-
-    let isAdminExists =await adminService.getAdminByEmailId(email_address);
-
-
-    console.log(isAdminExists);
-
-    if(isAdminExists) 
-    {
-        return next({ statusCode: 409, message: `Admin already exists with given Email_Address` }); 
-    }
-
-    password =await authHelper.hashPassword(password);
-
-    const createAdminResponse = await adminService.createAdmin({admin_name,email_address,password});
-
-    return res.status(200).send({
-        msg : "Admin Created Successfully!!",
-        studentResponse :  createAdminResponse
-    })
 
 }
+
+
+
+// ----------------------- Admin Authentication -----------------------------------------
+
+exports.postAdminLogin=async(req,res,next) =>{
+
+    try {
+            const {email_address,password} = req.body;
+
+            if(!email_address || !password)
+            {
+                return next({ statusCode: 400, message: `Please Send Proper Data With Proper Keys. (Required fields with keys - email_address, password)` });
+            }
+
+            let isAdminExists =await adminService.getAdminByEmailId(email_address);
+
+            if(!isAdminExists) 
+            {
+                return next({ statusCode: 409, message: `Admin not found with given Email_Address` }); 
+            }
+
+            let validatePassword = await authHelper.validatePassword(password,isAdminExists.password);
+
+            if(validatePassword)
+            {
+                const tokenObject = {id:isAdminExists.id,email_address : isAdminExists.email_address};
+                const jwtToken = await authHelper.createToken(tokenObject);
+                return res.status(200).send({
+                    msg : "Admin Successfully Logged In!!",
+                    token : jwtToken});   
+            }else{
+                return res.status(401).send({
+                    msg : "You Are Not Authorized!! Password Incorrect"});   
+            }
+   
+    } catch (error) {
+        return next(error);
+    }
+}
+

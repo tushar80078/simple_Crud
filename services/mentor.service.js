@@ -8,7 +8,9 @@ const prisma = new PrismaClient();
  */
 
 const createMentor = async(empData) =>{
-    const mentorResponse = await prisma.mentors(empData);
+    const mentorResponse = await prisma.mentors.create({
+        data:empData
+    });
 
     return mentorResponse;
 }

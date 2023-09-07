@@ -6,9 +6,11 @@ const router = express.Router();
 
 const studentRoutes = require("./student.routes");
 const adminRoutes = require("./admin.routes");
+const courseRoutes = require("./course.routes");
 
 router.use("/student",studentRoutes);
 router.use("/admin",adminRoutes);
+router.use("/courses",courseRoutes);
 
 
 module.exports = router;

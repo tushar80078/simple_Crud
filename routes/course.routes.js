@@ -4,21 +4,19 @@ const router = express.Router();
 
 // ----------------------------- Controller -------------------------------------
 
-const adminController= require(`../controller/admin.controller`);
-
-
+const courseController= require(`../controller/course.controller`);
 
 
 
 // ----------------------------- Middlewares -------------------------------------
 
-
+const tokenValidation = require(`../helper/middleware/auth`);
 
 
 // ----------------------------- Routes ------------------------------------------
 
-router.post("/createAdmin",adminController.postCreateAdminProfile);
-router.post("/loginAdmin",adminController.postAdminLogin);
+router.post("/createCourse",tokenValidation,courseController.postCreateCourseController);
+
 
 // ----------------------------- Module Exports ----------------------------------
 
