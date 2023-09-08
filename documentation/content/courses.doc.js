@@ -5,7 +5,7 @@ exports.defination = {
 
     // ----------- Create Course Request Starts --------------------
     createCourseRequest : {
-      required: ["name", "fees", "course_description","course_score","has_project","has_residency","couse_image_link"],
+      required: ["name", "fees", "course_description","course_score","has_project","has_residency","couse_image_link","publish"],
       properties: {
         name: {
           type: "string",
@@ -34,6 +34,10 @@ exports.defination = {
         couse_image_link:{
             type: "string",
             example: "course_image_link",
+        },
+        publish:{
+          type:"boolean",
+          example : "false"
         }
       },
       securityDefinitions: {

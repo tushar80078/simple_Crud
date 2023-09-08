@@ -4,7 +4,8 @@ const router = express.Router();
 
 // ----------------------------- Controller -------------------------------------
 
-const studentController= require(`../controller/student.controller`);
+const projectController= require(`../controller/project.controller`);
+
 
 
 // ----------------------------- Middlewares -------------------------------------
@@ -14,6 +15,9 @@ const tokenValidation = require(`../helper/middleware/auth`);
 
 // ----------------------------- Routes ------------------------------------------
 
-router.post(`/createStudent`,tokenValidation,studentController.postCreateUser);
+router.post("/createProject",tokenValidation,projectController.postCreateProject);
+
+
+// ----------------------------- Module Exports ----------------------------------
 
 module.exports = router;

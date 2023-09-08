@@ -1,46 +1,41 @@
 const mentorService = require("../services/mentor.service");
 const authHelper = require("../helper/functions/authHelper");
-
+const dateTimeGenerator = require("../helper/functions/timeDateGenerator");
+       
 
 
 // ----------------------- Create Mentor Profile -----------------------------------------
 
-/*
-model mentors {
-  id                    Int              @id @default(autoincrement())
-  first_name            String           @db.VarChar(255)
-  last_name             String           @db.VarChar(255)
-  experience_level      String           @db.VarChar(50)
-  email_address         String           @db.VarChar(50)
-  mobile_no             String           @db.VarChar(50)
-  dob                   DateTime?        @db.Date
-  password              String           @db.VarChar(20)
-  skills_specialization String?          @db.VarChar(255)
-  education             String?          @db.VarChar(255)
-  mentors_skills        mentors_skills[]
-  mentors_slot          mentors_slot[]
-}
 
-*/
 
 exports.postCreateMentor = async(req,res,next) =>{
     try {
     
-        let {firstname, email_address, password} = req.body;
+        let {first_name, email_address, password, mobile_no} = req.body;
 
-        if(!firstname || !email_address || !password)
+        if(!first_name || !email_address || !password || !mobile_no)
         {
-            return next({ statusCode: 400, message: `Please Send Proper Data With Proper Keys. (Required fields with keys - firstname, emailaddress, password)` });
+            return next({ statusCode: 400, message: `Please Send Proper Data With Proper Keys. (Required fields with keys - first_name, email_address, password,mobile_no)` });
         }
+
+        const isMentorExists = await mentorService.getMentorByEmailId(email_address);
+
+        if(isMentorExists)
+        {
+            return next({ statusCode: 409, message: `Metor already exists with given Email_Address`}); 
+        }        
 
         // ----------- Generating hash password ---------------------
         password = await authHelper.hashPassword(password);
 
-        const response = await studentService.createUser({...req.body,password});
+        //------- Generate current time to add in database
+        const created_at = dateTimeGenerator.generateCurrentTiimeDate(); 
+
+        const response = await mentorService.createMentor({...req.body,password,created_at});
 
         return res.status(200).send({
-            msg : "Student Created Successfully!!",
-            studentResponse :  response
+            msg : "Mentor Created Successfully!!",
+            response :  response
         })
         
     } catch (error) {

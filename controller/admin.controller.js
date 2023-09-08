@@ -1,6 +1,6 @@
 const adminService = require("../services/admin.service");
 const authHelper = require("../helper/functions/authHelper");
-
+const dateTimeGenerator = require("../helper/functions/timeDateGenerator")
 
 // ----------------------- Create Mentor Profile -----------------------------------------
 
@@ -24,8 +24,11 @@ exports.postCreateAdminProfile =async (req,res,next) =>{
     
         //------- Generating hash password
         password =await authHelper.hashPassword(password);
+
+        //------- Generate current time to add in database
+        const created_at = dateTimeGenerator.generateCurrentTiimeDate();
     
-        const createAdminResponse = await adminService.createAdmin({admin_name,email_address,password});
+        const createAdminResponse = await adminService.createAdmin({admin_name,email_address,password,created_at});
     
         return res.status(200).send({
             msg : "Admin Created Successfully!!",
@@ -33,7 +36,7 @@ exports.postCreateAdminProfile =async (req,res,next) =>{
         })
             
     } catch (error) {
-        return next(erro);
+        return next(error);
     }
 
 }

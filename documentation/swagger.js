@@ -1,8 +1,15 @@
 const config = require(`../helper/config/config`);
 
+
+// ---------------------- Import Docs From Content Folder --------------------------
+
 const studentDoc = require(`./content/student.doc`);
 const adminDoc = require(`./content/admin.doc`);
 const coursesDoc = require(`./content/courses.doc`);
+const skillDoc = require(`./content/skill.doc`);
+const mentorDoc = require(`./content/mentor.doc`);
+const projectDoc = require(`./content/project.doc`);
+const residencyDoc = require(`./content/residency.doc`)
 
 
 
@@ -43,13 +50,21 @@ module.exports ={
     defination : {
         ...studentDoc.defination,
         ...adminDoc.defination,
-        ...coursesDoc.defination
+        ...coursesDoc.defination,
+        ...skillDoc.defination,
+        ...mentorDoc.defination,
+        ...projectDoc.defination,
+        ...residencyDoc.defination
     },
 
     // ----------- Pahts ------------------------------
     paths : {
         ...studentDoc.path,
         ...adminDoc.path,
-        ...coursesDoc.path   
+        ...coursesDoc.path,
+        ...skillDoc.path,
+        ...mentorDoc.path,
+        ...projectDoc.path,
+        ...residencyDoc.path   
     }
 };

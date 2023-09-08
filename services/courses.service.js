@@ -2,7 +2,7 @@ const {PrismaClient} = require("@prisma/client");
 const prisma = new PrismaClient();
 
 
-//-------------------------  Create Admin Profile ---------------------------------------- 
+//-------------------------  Create Course ---------------------------------------- 
 
 const createCourse = async(courseData) =>{
     const courseResponse = await prisma.courses.create({

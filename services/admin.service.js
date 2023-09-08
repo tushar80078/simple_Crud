@@ -15,7 +15,11 @@ const createAdmin = async(adminData) =>{
 
 
 //-------------------------  Get Admin ByEmailID ---------------------------------------- 
-
+/**
+ * @description 
+ * @param {*} adminData 
+ * @returns 
+ */
 const getAdminByEmailId = async(adminData) =>{
     const adminResponse = await prisma.admin_account.findFirst({
         where:{
