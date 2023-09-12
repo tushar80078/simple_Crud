@@ -10,7 +10,8 @@ const courseRoutes = require("./course.routes");
 const skillRoutes = require("./skill.routes");
 const mentorRoutes = require("./mentor.routes");
 const projectRoutes = require("./project.routes");
-const residenciesRoutes = require("./residency.routes")
+const residenciesRoutes = require("./residency.routes");
+const sessionsRoutes = require("./session.routes")
 
 
 // -------------------- Define Parent Routes ----------------------------------------
@@ -22,5 +23,6 @@ router.use("/skills",skillRoutes);
 router.use("/mentors",mentorRoutes);
 router.use("/projects",projectRoutes);
 router.use("/residencies",residenciesRoutes);
+router.use("/sessions",sessionsRoutes);
 
 module.exports = router;

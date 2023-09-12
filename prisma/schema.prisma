@@ -99,8 +99,8 @@ model live_sessions {
   id               Int       @id @default(autoincrement())
   session_name     String    @db.VarChar(255)
   session_duration Int
-  base_points      Decimal?  @db.Decimal(10, 2)
-  allocated_points Decimal?  @db.Decimal(10, 2)
+  base_points      Decimal   @db.Decimal(10, 2)
+  allocated_points Decimal   @db.Decimal(10, 2)
   isMandatory      Boolean
   created_at       DateTime? @db.Timestamp(0)
   updated_at       DateTime? @default(now()) @db.Timestamp(0)
@@ -138,8 +138,8 @@ model residencies {
 
 model video_recorded_sessions {
   id               Int       @id @default(autoincrement())
-  session_name     Int
-  recording_date   DateTime  @db.DateTime(0)
+  session_name     String    @db.Text
+  recording_date   DateTime? @db.DateTime(0)
   video_url        String?   @db.Text
   base_points      Decimal   @db.Decimal(10, 2)
   allocated_points Decimal   @db.Decimal(10, 2)

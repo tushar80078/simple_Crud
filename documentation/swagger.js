@@ -9,7 +9,9 @@ const coursesDoc = require(`./content/courses.doc`);
 const skillDoc = require(`./content/skill.doc`);
 const mentorDoc = require(`./content/mentor.doc`);
 const projectDoc = require(`./content/project.doc`);
-const residencyDoc = require(`./content/residency.doc`)
+const residencyDoc = require(`./content/residency.doc`);
+const recordedSessionDoc = require(`./content/recordSession.doc`);
+const liveSessionDoc = require(`./content/liveSessions.doc`);
 
 
 
@@ -54,7 +56,9 @@ module.exports ={
         ...skillDoc.defination,
         ...mentorDoc.defination,
         ...projectDoc.defination,
-        ...residencyDoc.defination
+        ...residencyDoc.defination,
+        ...recordedSessionDoc.defination,
+        ...liveSessionDoc.defination
     },
 
     // ----------- Pahts ------------------------------
@@ -65,6 +69,8 @@ module.exports ={
         ...skillDoc.path,
         ...mentorDoc.path,
         ...projectDoc.path,
-        ...residencyDoc.path   
+        ...residencyDoc.path,
+        ...recordedSessionDoc.path,
+        ...liveSessionDoc.path   
     }
 };
