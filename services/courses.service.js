@@ -62,6 +62,11 @@ const updateCourseById = async (courseId,courseData) =>{
 
     const existingData = await getCourseByCourseId(courseId);
 
+    if(!existingData)
+    {
+        throw new Error("Course With Given Id Not Found")
+    }
+
     courseData = {...existingData,...courseData};
 
     const courseResponse = await prisma.courses.update({

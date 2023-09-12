@@ -106,7 +106,20 @@ exports.defination = {
           in: "header",
         },
       },
-    } //=> Update Course Request Ends
+    }, //=> Update Course Request Ends
+
+    // ----------- Delete Course By Id Request Starts --------------------
+    deleteCourseByIdRequest : {
+      properties:{
+        securityDefinitions: {
+          JWT: {
+            type: "apiKey",
+            name: "Authorization",
+            in: "header",
+          },
+        },
+      }
+    }, //=> Delete Course By Id Request Ends
  
 };
   
@@ -165,34 +178,73 @@ exports.defination = {
       },
     },//=> Get All Courses Request Ends
 
-    // ----------- Get All Courses Request Starts --------------------
-    "/courses/updateCourseById": {
-      get: {
+    // ----------- Update All Courses Request Starts --------------------
+    "/courses/updateCourseById/{id}": {
+      put: {
         tags: ["Courses"],
         operationId: "updateCourseById",
-        summary: "Get All Courses",
-        description: "Get Courses",
+        summary: "Update Course By Id",
+        description: "Update Courses",
         security: [{ JWT: [] }],
-        parameters: [{
+        parameters: [
+          {
+            name: "id",
+            in: "path",
+            description: "ID of the course to be updated",
+            required: true,
+            type: "integer",
+            format: "int64",
+          },
+          {
           name: "course",
           required: true,
           in: "body",
           type: "object",
-          description: "Course Information.",
+          description: "Update Course Information.",
           schema: {
-            $ref: "#/defination/createCourseRequest",
+            $ref: "#/defination/updateCoruseByIdRequest",
           },
         },],
         responses: {
           200: {
-            description: "Courses Fetched Successfully!!!",
+            description: "Course Updated Successfully!!!",
             schema: {
-             $ref : "#/definitions/getAllCoursesRequest"
+             $ref : "#/definitions/updateCoruseByIdRequest"
             },
           },
         },
       },
-    },//=> Get All Courses Request Ends
+    },//=> Update Course By Id Request Ends
+
+     // ----------- Delete Course By Id Request Starts --------------------
+     "/courses/deleteCourseById/{id}": {
+      delete : {
+        tags: ["Courses"],
+        operationId: "deleteCourseById",
+        summary: "Delete Course By Id",
+        description: "Delete Courses",
+        security: [{ JWT: [] }],
+        parameters: [ {
+          name: "id",
+          in: "path",
+          description: "ID of the course to be deleted",
+          required: true,
+          type: "integer",
+          format: "int64",
+          schema: {
+            $ref : "#/definitions/deleteCourseByIdRequest"
+           },
+        }],
+        responses: {
+          200: {
+            description: "Course Deleted Successfully!!!",
+            schema: {
+             $ref : "#/definitions/deleteCourseByIdRequest"
+            },
+          },
+        },
+      },
+    },//=> Delete Course By Id Request Ends
   
   };
   
