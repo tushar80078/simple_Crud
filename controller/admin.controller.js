@@ -64,13 +64,20 @@ exports.postAdminLogin=async(req,res,next) =>{
 
             let validatePassword = await authHelper.validatePassword(password,isAdminExists.password);
 
+            
+
             if(validatePassword)
             {
                 const tokenObject = {id:isAdminExists.id,email_address : isAdminExists.email_address};
                 const jwtToken = await authHelper.createToken(tokenObject);
                 return res.status(200).send({
                     msg : "Admin Successfully Logged In!!",
-                    token : jwtToken});   
+                    token : jwtToken,
+                    adminInfo : {
+                        email_address : isAdminExists.email_address,
+                        name : isAdminExists.admin_name
+                    }
+                    });   
             }else{
                 return res.status(401).send({
                     msg : "You Are Not Authorized!! Password Incorrect"});   
