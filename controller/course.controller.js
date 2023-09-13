@@ -70,6 +70,7 @@ exports.getGetAllCourses = async(req,res,next) =>{
 }
 
 
+
 // --------------------------------- Update Course By ID -----------------------------------------
 
 exports.putUpdateCourseById = async(req,res,next) =>{
@@ -134,4 +135,31 @@ exports.deleteDeleteCourseById = async(req,res,next) =>{
     } catch (error) {
         return next(error);
     }
+}
+
+// --------------------------------- Get Course By ID -----------------------------------------
+
+exports.getGetCourseById= async(req,res,next)=>{
+
+    try {
+        
+        const {id} = req.params;
+
+        const courseResponse = await courseService.getCourseByCourseId(id);
+
+        if(courseResponse)
+        {
+            return res.status(200).send({
+                msg : "Course Fetched Successfully !!!",
+                courseResponse : courseResponse
+            }) 
+        }else{
+            return next("Course With Given Id Dosen't Found. Please Check Once.!!");
+        }
+
+
+    } catch (error) {
+        return next(error);
+    }
+
 }

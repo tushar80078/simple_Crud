@@ -120,6 +120,19 @@ exports.defination = {
         },
       }
     }, //=> Delete Course By Id Request Ends
+
+     // ----------- Get Course By Id Request Starts --------------------
+     getCourseByIdRequest : {
+      properties:{
+        securityDefinitions: {
+          JWT: {
+            type: "apiKey",
+            name: "Authorization",
+            in: "header",
+          },
+        },
+      }
+    }, //=> Get Course By Id Request Ends
  
 };
   
@@ -245,6 +258,36 @@ exports.defination = {
         },
       },
     },//=> Delete Course By Id Request Ends
+
+     // ----------- Get Course By Id Request Starts --------------------
+     "/courses/getCourseById/{id}": {
+      get : {
+        tags: ["Courses"],
+        operationId: "getCourseById/{id}",
+        summary: "Get Course By Id",
+        description: "Get Courses",
+        security: [{ JWT: [] }],
+        parameters: [ {
+          name: "id",
+          in: "path",
+          description: "ID of the course to be get",
+          required: true,
+          type: "integer",
+          format: "int64",
+          schema: {
+            $ref : "#/definitions/getCourseByIdRequest"
+           },
+        }],
+        responses: {
+          200: {
+            description: "Course Fetched Successfully!!!",
+            schema: {
+             $ref : "#/definitions/getCourseByIdRequest"
+            },
+          },
+        },
+      },
+    },//=> Get Course By Id Request Ends
   
   };
   

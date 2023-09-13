@@ -19,6 +19,7 @@ router.post("/createCourse",tokenValidation,courseController.postCreateCourseCon
 router.get("/getAllCourses",tokenValidation,courseController.getGetAllCourses);
 router.put("/updateCourseById/:id",tokenValidation,courseController.putUpdateCourseById);
 router.delete("/deleteCourseById/:id",tokenValidation,courseController.deleteDeleteCourseById);
+router.get("/getCourseById/:id",tokenValidation,courseController.getGetCourseById);
 
 // ----------------------------- Module Exports ----------------------------------
 
