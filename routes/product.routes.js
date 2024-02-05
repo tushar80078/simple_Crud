@@ -1,22 +1,19 @@
 const express = require(`express`);
 const router = express.Router();
 
-
 // ----------------------------- Controller -------------------------------------
 
-const residencyController= require(`../controller/residencies.controller`);
-
-
+const productController = require(`../controller/product.controller`);
 
 // ----------------------------- Middlewares -------------------------------------
 
-const tokenValidation = require(`../helper/middleware/auth`);
-
-
 // ----------------------------- Routes ------------------------------------------
 
-router.post("/createResidency",tokenValidation,residencyController.postCreateResidency);
-
+router.post("/createProduct", productController.createProduct);
+router.get("/getAllProduct", productController.getAllProducts);
+router.delete("/deleteProductById/:id", productController.deleteProductById);
+router.get("/getProductById/:id", productController.getProductById);
+router.put("/updateProduct/:id", productController.updateProduct);
 
 // ----------------------------- Module Exports ----------------------------------
 
